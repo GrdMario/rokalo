@@ -5,4 +5,10 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Application\Rokalo.Application\Rokalo.Application.csproj" />
+    <ProjectReference Include="..\Infrastructure\Rokalo.Infrastructure.Db.Users\Rokalo.Infrastructure.Db.Users.csproj" />
+    <ProjectReference Include="..\Presentation\Rokalo.Presentation.Api\Rokalo.Presentation.Api.csproj" />
+  </ItemGroup>
+
 </Project>

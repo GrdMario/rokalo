@@ -5,4 +5,8 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Rokalo.Application.Contracts\Rokalo.Application.Contracts.csproj" />
+  </ItemGroup>
+
 </Project>
