@@ -5,4 +5,14 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.1" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="7.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Rokalo.Blocks.Common.Extensions\Rokalo.Blocks.Common.Extensions.csproj" />
+    <ProjectReference Include="..\Rokalo.Blocks.Common.Mapping.Core\Rokalo.Blocks.Common.Mapping.Core.csproj" />
+  </ItemGroup>
+
 </Project>
