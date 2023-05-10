@@ -3,12 +3,8 @@
     using FluentValidation;
     using MediatR;
     using Microsoft.Extensions.DependencyInjection;
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
+    using Rokalo.Application.Internal.Behaviors;
     using System.Reflection;
-    using System.Text;
-    using System.Threading.Tasks;
 
     public static class DependencyInjection
     {
@@ -19,6 +15,8 @@
             services.AddMediatR(assemblies);
 
             services.AddValidatorsFromAssemblies(assemblies, includeInternalTypes: true);
+
+            services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
             return services;
         }
     }
