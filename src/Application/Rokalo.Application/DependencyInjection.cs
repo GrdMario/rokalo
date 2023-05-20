@@ -12,7 +12,7 @@
             this IServiceCollection services,
             params Assembly[] assemblies)
         {
-            services.AddMediatR(assemblies);
+            // TODO services.AddMediatR(assemblies);
 
             services.AddValidatorsFromAssemblies(assemblies, includeInternalTypes: true);
 

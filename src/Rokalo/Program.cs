@@ -1,6 +1,9 @@
-var builder = WebApplication.CreateBuilder(args);
-var app = builder.Build();
+namespace Rokalo
+{
+    using System.Threading.Tasks;
 
-app.MapGet("/", () => "Hello World!");
-
-app.Run();
+    public static class Program
+    {
+        public static async Task Main(string[] args) => await ApplicationLauncher.RunAsync<Startup>(args);
+    }
+}
