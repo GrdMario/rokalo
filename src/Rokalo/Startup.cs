@@ -9,6 +9,7 @@
     using Rokalo.Application;
     using Rokalo.Infrastructure.Db.Users;
     using Rokalo.Presentation.Api;
+    using System;
 
     internal sealed class Startup
     {
@@ -24,7 +25,7 @@
         public PostgreSettings postgreSettings =>
             Configuration
             .GetSection(PostgreSettings.Key)
-            .Get<PostgreSettings>();
+            .Get<PostgreSettings>() ?? throw new ArgumentException(nameof(PostgreSettings));
 
         public void ConfigureServices(IServiceCollection services)
         {
