@@ -21,15 +21,15 @@
         public IConfiguration Configuration { get; }
         public IWebHostEnvironment Environment { get; }
 
-        public PostgreSettings postgreSettings =>
+        public MssqlSettings MssqlSettings =>
             Configuration
-            .GetSection(PostgreSettings.Key)
-            .Get<PostgreSettings>();
+            .GetSection(MssqlSettings.Key)
+            .Get<MssqlSettings>();
 
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddCors();
-            //TODO services.AddInfrastructureUsersConfiguration(PostgreSettings);
+            services.AddInfrastructureUsersConfiguration(MssqlSettings);
             services.AddApplicationConfiguration();
             services.AddPresentationConfiguration(Environment);
         }

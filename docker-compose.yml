@@ -1,0 +1,14 @@
+services:
+  rokalo-mssql:
+    image: mcr.microsoft.com/mssql/server:latest
+    container_name: mssql
+    volumes:
+      - ./data:/var/opt/mssql/data
+    environment:
+      ACCEPT_EULA: "Y"
+      SA_PASSWORD: yourStrongPassword!
+    restart: unless-stopped
+    ports:
+      - "1433:1433"
+
+
