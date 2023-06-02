@@ -3,11 +3,6 @@
     using Microsoft.EntityFrameworkCore;
     using Microsoft.EntityFrameworkCore.Metadata.Builders;
     using Rokalo.Domain;
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
-    using System.Threading.Tasks;
 
     internal sealed class UserEntityTypeConfiguration : IEntityTypeConfiguration<User>
     {
@@ -27,7 +22,7 @@
 
             builder.HasOne(x => x.Profile);
 
-            builder.HasMany(x => x.Claims);
+            builder.HasMany(x => x.Claims).WithOne(x => x.User).HasForeignKey(x => x.UserId); // probably not like this
         }
     }
 }

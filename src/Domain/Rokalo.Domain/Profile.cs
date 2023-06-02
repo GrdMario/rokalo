@@ -4,7 +4,15 @@
 
     public class Profile
     {
-        public Profile(Guid id, Guid userId, string? firstName, string? lastName, string? number, string? mobile, string? oib)
+        public Profile(
+            Guid id,
+            Guid userId,
+            string? firstName,
+            string? lastName,
+            string? number,
+            string? mobile,
+            string? oib
+            )
         {
             this.Id = id;
             this.UserId = userId;

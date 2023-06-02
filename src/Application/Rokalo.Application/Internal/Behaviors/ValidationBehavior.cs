@@ -2,7 +2,7 @@
 {
     using FluentValidation;
     using MediatR;
-    using Rokalo.Application.Internal.Exceptions;
+    using Rokalo.Blocks.Common.Exceptions;
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading;

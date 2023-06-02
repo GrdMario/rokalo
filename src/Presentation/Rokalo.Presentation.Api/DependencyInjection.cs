@@ -8,7 +8,7 @@
     using Microsoft.Extensions.Hosting;
     using Newtonsoft.Json;
     using Newtonsoft.Json.Serialization;
-    using Rokalo.Application.Internal.Exceptions;
+    using Rokalo.Blocks.Common.Exceptions;
     using System;
     using System.Linq;
     using ProblemDetailsOptions = Hellang.Middleware.ProblemDetails.ProblemDetailsOptions;

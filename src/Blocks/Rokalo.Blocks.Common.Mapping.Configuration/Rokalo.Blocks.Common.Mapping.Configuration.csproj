@@ -15,4 +15,8 @@
     <ProjectReference Include="..\Rokalo.Blocks.Common.Mapping.Core\Rokalo.Blocks.Common.Mapping.Core.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Properties\" />
+  </ItemGroup>
+
 </Project>

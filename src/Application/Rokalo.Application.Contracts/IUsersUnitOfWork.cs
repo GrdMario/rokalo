@@ -6,6 +6,7 @@
     public interface IUsersUnitOfWork
     {
         Task SaveChangesAsync(CancellationToken cancellationToken);
+
         IUserRepository Users { get; }
     }
 }

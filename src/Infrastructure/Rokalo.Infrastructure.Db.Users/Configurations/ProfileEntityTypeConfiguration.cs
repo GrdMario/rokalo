@@ -12,8 +12,6 @@
 
             builder.HasKey(x => x.Id);
 
-            // UserId foreign key config?
-
             builder.Property(p => p.FirstName);
 
             builder.Property(p => p.LastName);

@@ -13,7 +13,12 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\Blocks\Rokalo.Blocks.Common.Exceptions\Rokalo.Blocks.Common.Exceptions.csproj" />
     <ProjectReference Include="..\Rokalo.Application.Contracts\Rokalo.Application.Contracts.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Internal\Exceptions\" />
   </ItemGroup>
 
 </Project>

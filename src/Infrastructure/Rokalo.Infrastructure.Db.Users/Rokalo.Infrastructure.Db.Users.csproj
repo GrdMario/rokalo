@@ -21,6 +21,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\Application\Rokalo.Application.Contracts\Rokalo.Application.Contracts.csproj" />
+    <ProjectReference Include="..\..\Blocks\Rokalo.Blocks.Common.Exceptions\Rokalo.Blocks.Common.Exceptions.csproj" />
   </ItemGroup>
 
 </Project>

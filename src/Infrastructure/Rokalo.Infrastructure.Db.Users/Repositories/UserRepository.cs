@@ -2,6 +2,7 @@
 {
     using Microsoft.EntityFrameworkCore;
     using Rokalo.Application.Contracts;
+    using Rokalo.Blocks.Common.Exceptions;
     using Rokalo.Domain;
     using System;
     using System.Threading;
@@ -27,14 +28,12 @@
 
         public async Task<User> GetByIdAsync(Guid id, CancellationToken cancellationToken)
         {
-            return await this.users.FindAsync(new object[] {id}, cancellationToken) ?? throw new ApplicationException("Unable to find that user.");
+            return await this.users.FindAsync(new object[] {id}, cancellationToken) ?? throw new ServiceValidationException("Unable to find that user.");
         }
 
         public void Update(User user)
         {
             this.users.Update(user);
         }
-
-        //TODO GetAsync -- do we need that or is it enough to get only user by id??
     }
 }

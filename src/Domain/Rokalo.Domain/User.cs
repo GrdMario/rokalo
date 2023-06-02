@@ -5,7 +5,14 @@
 
     public class User
     {
-        public User(Guid id, string email, string password, bool isEmailVerified, string emailVerificationCode, Profile profile, List<Claim> claims)
+        public User(
+            Guid id,
+            string email,
+            string password,
+            bool isEmailVerified,
+            string emailVerificationCode,
+            Profile profile,
+            List<Claim> claims)
         {
             this.Id = id;
             this.Email = email;
