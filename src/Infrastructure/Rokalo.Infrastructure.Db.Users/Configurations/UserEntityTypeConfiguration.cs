@@ -22,7 +22,7 @@
 
             builder.HasOne(x => x.Profile);
 
-            builder.HasMany(x => x.Claims).WithOne(x => x.User).HasForeignKey(x => x.UserId); // probably not like this
+            builder.HasMany(x => x.Claims).WithOne().HasForeignKey(x => x.UserId);
         }
     }
 }

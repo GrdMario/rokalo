@@ -10,17 +10,13 @@
             string email,
             string password,
             bool isEmailVerified,
-            string emailVerificationCode,
-            Profile profile,
-            List<Claim> claims)
+            string emailVerificationCode)
         {
             this.Id = id;
             this.Email = email;
             this.Password = password;
             this.IsEmailVerified = isEmailVerified;
             this.EmailVerificationCode = emailVerificationCode;
-            this.Profile = profile;
-            this.Claims = claims;
         }
 
         public Guid Id { get; protected set; }

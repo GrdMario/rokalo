@@ -11,7 +11,5 @@
         void Update(User user);
         void Delete(User user);
         Task<User> GetByIdAsync(Guid id, CancellationToken cancellationToken);
-
-        // TODO GetAsync -- do we need to get all users?
     }
 }

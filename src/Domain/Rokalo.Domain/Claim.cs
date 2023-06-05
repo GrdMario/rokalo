@@ -7,19 +7,15 @@
         public Claim(
             Guid id,
             Guid userId,
-            string value,
-            User user
-            )
+            string value )
         {
             this.Id = id;
             this.UserId = userId;
             this.Value = value;
-            this.User = user;
         }
 
         public Guid Id { get; protected set; }
         public Guid UserId { get; protected set; }
         public string Value { get; protected set; }
-        public User User { get; protected set; }
     }
 }
