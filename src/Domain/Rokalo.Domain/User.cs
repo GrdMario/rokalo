@@ -24,8 +24,8 @@
         public string Password { get; protected set; }
         public bool IsEmailVerified { get; protected set; }
         public string EmailVerificationCode{ get; protected set; }
-        public Profile Profile { get; protected set; }
-        public List<Claim> Claims { get; protected set; }
+        public Profile Profile { get; protected set; } = default!;
+        public List<Claim> Claims { get; protected set; } = new();
 
         public void Update(string password)
         {

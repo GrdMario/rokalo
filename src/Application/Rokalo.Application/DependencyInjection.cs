@@ -8,11 +8,17 @@
 
     public static class DependencyInjection
     {
+        public static IServiceCollection AddApplicationLayer(this IServiceCollection services)
+        {
+            services.AddApplicationConfiguration(Assembly.GetExecutingAssembly());
+
+            return services;
+        }
         public static IServiceCollection AddApplicationConfiguration(
             this IServiceCollection services,
             params Assembly[] assemblies)
         {
-            services.AddMediatR(assemblies);
+            services.AddMediatR(c => c.RegisterServicesFromAssemblies(assemblies));
 
             services.AddValidatorsFromAssemblies(assemblies, includeInternalTypes: true);
 

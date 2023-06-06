@@ -30,7 +30,7 @@
         {
             services.AddCors();
             services.AddInfrastructureUsersConfiguration(MssqlSettings);
-            services.AddApplicationConfiguration();
+            services.AddApplicationLayer();
             services.AddPresentationConfiguration(Environment);
         }
 
@@ -42,6 +42,8 @@
             {
                 app.UseHsts();
             }
+
+            app.MigrateMssqlDb();
 
             app.UseHttpsRedirection();
 

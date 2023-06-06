@@ -1,10 +1,12 @@
 ﻿namespace Rokalo.Infrastructure.Db.Users
 {
+    using Microsoft.AspNetCore.Builder;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.DependencyInjection;
     using Rokalo.Application.Contracts;
     using Rokalo.Infrastructure.Db.Users.Repositories;
     using System;
+    using System.Linq;
 
     public static class DependencyInjection
     {
@@ -17,6 +19,25 @@
             services.AddScoped<IUsersUnitOfWork, UsersUnitOfWork>();
 
             return services;
+        }
+
+        public static IApplicationBuilder MigrateMssqlDb(this IApplicationBuilder builder)
+        {
+            using var scope = builder.ApplicationServices.CreateScope();
+
+            using var dbContext = scope.ServiceProvider.GetService<UsersDbContext>();
+
+            if (dbContext is null)
+            {
+                throw new ArgumentNullException(nameof(dbContext));
+            }
+
+            if (dbContext.Database.GetPendingMigrations().Count() > 0)
+            {
+                dbContext.Database.Migrate();
+            }
+
+            return builder;
         }
     }
 
