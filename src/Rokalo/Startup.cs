@@ -21,16 +21,16 @@
         public IConfiguration Configuration { get; }
         public IWebHostEnvironment Environment { get; }
 
-        public PostgreSettings postgreSettings =>
+        public MssqlSettings MssqlSettings =>
             Configuration
-            .GetSection(PostgreSettings.Key)
-            .Get<PostgreSettings>();
+            .GetSection(MssqlSettings.Key)
+            .Get<MssqlSettings>();
 
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddCors();
-            //TODO services.AddInfrastructureUsersConfiguration(PostgreSettings);
-            services.AddApplicationConfiguration();
+            services.AddInfrastructureUsersConfiguration(MssqlSettings);
+            services.AddApplicationLayer();
             services.AddPresentationConfiguration(Environment);
         }
 
@@ -42,6 +42,8 @@
             {
                 app.UseHsts();
             }
+
+            app.MigrateMssqlDb();
 
             app.UseHttpsRedirection();
 

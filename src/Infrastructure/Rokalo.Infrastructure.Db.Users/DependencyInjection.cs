@@ -1,26 +1,49 @@
 ﻿namespace Rokalo.Infrastructure.Db.Users
 {
+    using Microsoft.AspNetCore.Builder;
+    using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.DependencyInjection;
+    using Rokalo.Application.Contracts;
+    using Rokalo.Infrastructure.Db.Users.Repositories;
     using System;
-    using System.Collections.Generic;
     using System.Linq;
-    using System.Text;
-    using System.Threading.Tasks;
 
     public static class DependencyInjection
     {
-        public static IServiceCollection AddInfrastructureUsersConfiguration(this IServiceCollection services, PostgreSettings settings)
+        public static IServiceCollection AddInfrastructureUsersConfiguration(this IServiceCollection services, MssqlSettings settings)
         {
-            // TODO
-            // Add DbContext, repositories, IUnitOfWork
+            services.AddDbContext<UsersDbContext>(options => options.UseSqlServer(settings.ConnectionString));
+
+            services.AddScoped<IUserRepository, UserRepository>();
+
+            services.AddScoped<IUsersUnitOfWork, UsersUnitOfWork>();
 
             return services;
         }
+
+        public static IApplicationBuilder MigrateMssqlDb(this IApplicationBuilder builder)
+        {
+            using var scope = builder.ApplicationServices.CreateScope();
+
+            using var dbContext = scope.ServiceProvider.GetService<UsersDbContext>();
+
+            if (dbContext is null)
+            {
+                throw new ArgumentNullException(nameof(dbContext));
+            }
+
+            if (dbContext.Database.GetPendingMigrations().Count() > 0)
+            {
+                dbContext.Database.Migrate();
+            }
+
+            return builder;
+        }
     }
 
-    public class PostgreSettings
+    public class MssqlSettings
     {
-        public const String Key = nameof(PostgreSettings);
+        public const string Key = nameof(MssqlSettings);
         public string ConnectionString { get; set; } = default;
     }
 }
