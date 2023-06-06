@@ -6,7 +6,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" Version="2.2.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.5" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="7.0.5">
       <PrivateAssets>all</PrivateAssets>
@@ -24,5 +23,10 @@
     <ProjectReference Include="..\..\Application\Rokalo.Application.Contracts\Rokalo.Application.Contracts.csproj" />
     <ProjectReference Include="..\..\Blocks\Rokalo.Blocks.Common.Exceptions\Rokalo.Blocks.Common.Exceptions.csproj" />
   </ItemGroup>
+
+  <ItemGroup>
+	<FrameworkReference Include="Microsoft.AspNetCore.App" />
+  </ItemGroup>
+
 
 </Project>
