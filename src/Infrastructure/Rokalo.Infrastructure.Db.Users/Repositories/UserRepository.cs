@@ -5,7 +5,6 @@
     using Rokalo.Blocks.Common.Exceptions;
     using Rokalo.Domain;
     using System;
-    using System.Threading;
     using System.Threading.Tasks;
 
     internal sealed class UserRepository : IUserRepository
@@ -16,24 +15,39 @@
         {
             this.users = context.Set<User>();
         }
-        public void Create(User user)
+
+        public void Add(User user)
         {
             this.users.Add(user);
         }
 
-        public void Delete(User user)
+        public async Task<User?> GetByIdAsync(Guid id)
         {
-            this.users.Remove(user);
+            return await this.users.FindAsync(new object[] { id });
         }
 
-        public async Task<User> GetByIdAsync(Guid id, CancellationToken cancellationToken)
+        public async Task<User> GetByIdAsyncSafe(Guid id)
         {
-            return await this.users.FindAsync(new object[] {id}, cancellationToken) ?? throw new ServiceValidationException("Unable to find that user.");
+            return await this.users.FindAsync() ?? throw new ServiceValidationException("Unable to find that user.");
         }
+        //public void Create(User user)
+        //{
+        //    this.users.Add(user);
+        //}
 
-        public void Update(User user)
-        {
-            this.users.Update(user);
-        }
+        //public void Delete(User user)
+        //{
+        //    this.users.Remove(user);
+        //}
+
+        //public async Task<User> GetByIdAsync(Guid id, CancellationToken cancellationToken)
+        //{
+        //    return await this.users.FindAsync(new object[] {id}, cancellationToken) ?? throw new ServiceValidationException("Unable to find that user.");
+        //}
+
+        //public void Update(User user)
+        //{
+        //    this.users.Update(user);
+        //}
     }
 }
