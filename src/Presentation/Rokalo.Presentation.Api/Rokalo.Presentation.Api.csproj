@@ -29,4 +29,8 @@
     <ProjectReference Include="..\..\Application\Rokalo.Application\Rokalo.Application.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Controllers\Accounts\Models\" />
+  </ItemGroup>
+
 </Project>

@@ -1,4 +1,4 @@
-﻿namespace Rokalo.Blocks.Common.Extensions
+﻿namespace Rokalo.Application.Helpers
 {
     using FluentValidation;
 

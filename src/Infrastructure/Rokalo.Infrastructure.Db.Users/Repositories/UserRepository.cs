@@ -30,24 +30,5 @@
         {
             return await this.users.FindAsync() ?? throw new ServiceValidationException("Unable to find that user.");
         }
-        //public void Create(User user)
-        //{
-        //    this.users.Add(user);
-        //}
-
-        //public void Delete(User user)
-        //{
-        //    this.users.Remove(user);
-        //}
-
-        //public async Task<User> GetByIdAsync(Guid id, CancellationToken cancellationToken)
-        //{
-        //    return await this.users.FindAsync(new object[] {id}, cancellationToken) ?? throw new ServiceValidationException("Unable to find that user.");
-        //}
-
-        //public void Update(User user)
-        //{
-        //    this.users.Update(user);
-        //}
     }
 }

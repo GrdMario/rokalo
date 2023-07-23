@@ -3,35 +3,35 @@
     using FluentValidation;
     using MediatR;
     using Rokalo.Application.Contracts;
+    using Rokalo.Application.Helpers;
     using Rokalo.Application.Services;
-    using Rokalo.Blocks.Common.Extensions;
     using Rokalo.Domain;
     using System;
     using System.Threading;
     using System.Threading.Tasks;
 
     public record RegisterUserCommand(
-        string email,
-        string password,
-        string firstName,
-        string lastName,
-        string phoneNumber,
-        string mobileNumber,
-        string address,
-        int cityId) : IRequest;
+        string Email,
+        string Password,
+        string FirstName,
+        string LastName,
+        string PhoneNumber,
+        string MobileNumber,
+        string Address,
+        int CityId) : IRequest;
 
     internal sealed class RegisterUserCommandValidator : AbstractValidator<RegisterUserCommand>
     {
         public RegisterUserCommandValidator()
         {
-            RuleFor(u => u.password).Password();
-            RuleFor(u => u.firstName).Length(0, 50);
-            RuleFor(u => u.lastName).Length(0, 50);
-            RuleFor(u => u.phoneNumber).Length(0, 20);
-            RuleFor(u => u.mobileNumber).Length(0, 20);
-            RuleFor(u => u.address).Length(0, 100);
-            RuleFor(u => u.cityId).NotNull(); // TODO add must be valid city id, where is that city id?
-            RuleFor(u => u.email).EmailAddress();
+            RuleFor(u => u.Password).Password();
+            RuleFor(u => u.FirstName).Length(0, 50);
+            RuleFor(u => u.LastName).Length(0, 50);
+            RuleFor(u => u.PhoneNumber).Length(0, 20);
+            RuleFor(u => u.MobileNumber).Length(0, 20);
+            RuleFor(u => u.Address).Length(0, 100);
+            RuleFor(u => u.CityId).NotNull(); // TODO add must be valid city id, where is that city id?
+            RuleFor(u => u.Email).EmailAddress();
         }
     }
 
@@ -48,11 +48,11 @@
 
         public async Task Handle(RegisterUserCommand request, CancellationToken cancellationToken)
         {
-            string hashedPassword = hashingService.HashPassword(request.password, out byte[] salt);
+            string hashedPassword = this.hashingService.HashPassword(request.Password);
 
             User user = new User(
                 Guid.NewGuid(),
-                request.email,
+                request.Email,
                 hashedPassword,
                 false,
                 Guid.NewGuid().ToString()
