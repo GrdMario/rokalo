@@ -8,7 +8,6 @@
 
     public class AccountsController : ApiControllerBase
     {
-        // TODO Implement controller
         public AccountsController(IMediator mediator) : base(mediator)
         {
         }
@@ -24,5 +23,6 @@
 
             return this.NoContent();
         }
+
     }
 }

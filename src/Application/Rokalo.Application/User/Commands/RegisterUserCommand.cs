@@ -39,18 +39,20 @@
     {
         private readonly IUsersUnitOfWork unitOfWork;
         private readonly IPasswordHashingService hashingService;
+        private readonly IEmailService emailService;
 
-        public RegisterUserCommandHandler(IUsersUnitOfWork unitOfWork, IPasswordHashingService hashingService)
+        public RegisterUserCommandHandler(IUsersUnitOfWork unitOfWork, IPasswordHashingService hashingService, IEmailService emailService)
         {
             this.unitOfWork = unitOfWork;
             this.hashingService = hashingService;
+            this.emailService = emailService;
         }
 
         public async Task Handle(RegisterUserCommand request, CancellationToken cancellationToken)
         {
-            string hashedPassword = this.hashingService.HashPassword(request.Password);
+            string hashedPassword = this.hashingService.Hash(request.Password);
 
-            User user = new User(
+            User user = new (
                 Guid.NewGuid(),
                 request.Email,
                 hashedPassword,
@@ -62,11 +64,7 @@
 
             await this.unitOfWork.SaveChangesAsync(cancellationToken);
 
-            // TODO
-            /*
-             * 
-            it needs to send email via email service for email confirmation */
-
+            await this.emailService.SendConfirmEmailAsync(user.Email, user.Id, user.EmailVerificationCode);
         }
     }
 

@@ -4,6 +4,7 @@
     using MediatR;
     using Microsoft.Extensions.DependencyInjection;
     using Rokalo.Application.Internal.Behaviors;
+    using Rokalo.Application.Services;
     using System.Reflection;
 
     public static class DependencyInjection
@@ -11,6 +12,8 @@
         public static IServiceCollection AddApplicationLayer(this IServiceCollection services)
         {
             services.AddApplicationConfiguration(Assembly.GetExecutingAssembly());
+
+            services.AddScoped<IPasswordHashingService, PasswordHashingService>();
 
             return services;
         }

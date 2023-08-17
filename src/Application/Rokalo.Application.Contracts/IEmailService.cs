@@ -5,6 +5,6 @@
 
     public interface IEmailService
     {
-        Task SendConfirmEmailAsync(string email, Guid userId, Guid code);
+        Task SendConfirmEmailAsync(string email, Guid userId, string code);
     }
 }
