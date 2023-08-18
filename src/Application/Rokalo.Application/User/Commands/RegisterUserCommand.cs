@@ -22,16 +22,34 @@
 
     internal sealed class RegisterUserCommandValidator : AbstractValidator<RegisterUserCommand>
     {
-        public RegisterUserCommandValidator()
+        private const int MinLength = 0;
+        private const int MaxNameLength = 50;
+        private const int MaxPhoneNumberLength = 20;
+        private const int MaxAddressLength = 100;
+
+        private readonly IUsersUnitOfWork unitOfWork;
+
+        public RegisterUserCommandValidator(IUsersUnitOfWork unitOfWork)
         {
+            this.unitOfWork = unitOfWork;
+
             RuleFor(u => u.Password).Password();
-            RuleFor(u => u.FirstName).Length(0, 50);
-            RuleFor(u => u.LastName).Length(0, 50);
-            RuleFor(u => u.PhoneNumber).Length(0, 20);
-            RuleFor(u => u.MobileNumber).Length(0, 20);
-            RuleFor(u => u.Address).Length(0, 100);
+            RuleFor(u => u.FirstName).Length(MinLength, MaxNameLength);
+            RuleFor(u => u.LastName).Length(MinLength, MaxNameLength);
+            RuleFor(u => u.PhoneNumber).Length(MinLength, MaxPhoneNumberLength);
+            RuleFor(u => u.MobileNumber).Length(MinLength, MaxPhoneNumberLength);
+            RuleFor(u => u.Address).Length(MinLength, MaxAddressLength);
             RuleFor(u => u.CityId).NotNull(); // TODO add must be valid city id, where is that city id?
-            RuleFor(u => u.Email).EmailAddress();
+            RuleFor(u => u.Email).EmailAddress()
+                .MustAsync(IsUniqueEmail)
+                .WithMessage("Email is already in use.");
+        }
+
+        private async Task<bool> IsUniqueEmail(string email, CancellationToken cancellationToken)
+        {
+            var user = await unitOfWork.Users.GetByEmailAsync(email, cancellationToken);
+
+            return user == null;
         }
     }
 

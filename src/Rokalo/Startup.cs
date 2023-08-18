@@ -28,11 +28,16 @@
             .GetSection(MssqlSettings.Key)
             .Get<MssqlSettings>();
 
+        public SmtpConfiguration SmtpConfiguration =>
+            Configuration
+            .GetSection(SmtpConfiguration.Key)
+            .Get<SmtpConfiguration>();
+
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddCors();
             services.AddInfrastructureUsersConfiguration(MssqlSettings);
-            services.AddInfrastructureEmailConfiguration();
+            services.AddInfrastructureEmailConfiguration(SmtpConfiguration);
             services.Configure<SmtpConfiguration>(Configuration.GetSection(SmtpConfiguration.Key));
             services.AddApplicationLayer();
             services.AddPresentationConfiguration(Environment);

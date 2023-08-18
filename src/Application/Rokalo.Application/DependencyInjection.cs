@@ -21,11 +21,14 @@
             this IServiceCollection services,
             params Assembly[] assemblies)
         {
-            services.AddMediatR(c => c.RegisterServicesFromAssemblies(assemblies));
-
             services.AddValidatorsFromAssemblies(assemblies, includeInternalTypes: true);
 
-            services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
+            services.AddMediatR(cfg =>
+            {
+                cfg.RegisterServicesFromAssemblies(assemblies);
+                cfg.AddOpenBehavior(typeof(ValidationBehavior<,>));
+            });
+
             return services;
         }
     }
