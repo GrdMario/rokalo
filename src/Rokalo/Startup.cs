@@ -8,6 +8,8 @@
     using Microsoft.Extensions.Hosting;
     using Rokalo.Application;
     using Rokalo.Infrastructure.Db.Users;
+    using Rokalo.Infrastructure.Email;
+    using Rokalo.Infrastructure.Email.Configurations;
     using Rokalo.Presentation.Api;
 
     internal sealed class Startup
@@ -26,10 +28,17 @@
             .GetSection(MssqlSettings.Key)
             .Get<MssqlSettings>();
 
+        public SmtpConfiguration SmtpConfiguration =>
+            Configuration
+            .GetSection(SmtpConfiguration.Key)
+            .Get<SmtpConfiguration>();
+
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddCors();
             services.AddInfrastructureUsersConfiguration(MssqlSettings);
+            services.AddInfrastructureEmailConfiguration(SmtpConfiguration);
+            services.Configure<SmtpConfiguration>(Configuration.GetSection(SmtpConfiguration.Key));
             services.AddApplicationLayer();
             services.AddPresentationConfiguration(Environment);
         }

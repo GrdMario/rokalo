@@ -7,9 +7,12 @@
 
     public interface IUserRepository
     {
-        void Create(User user);
-        void Update(User user);
-        void Delete(User user);
-        Task<User> GetByIdAsync(Guid id, CancellationToken cancellationToken);
+        Task<User> GetByIdAsyncSafe(Guid id, CancellationToken cancellationToken);
+
+        Task<User?> GetByIdAsync(Guid id, CancellationToken cancellationToken);
+
+        void Add(User user);
+
+        Task<User?> GetByEmailAsync(string email, CancellationToken cancellationToken);
     }
 }

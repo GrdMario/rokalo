@@ -16,24 +16,25 @@
         {
             this.users = context.Set<User>();
         }
-        public void Create(User user)
+
+        public void Add(User user)
         {
             this.users.Add(user);
         }
 
-        public void Delete(User user)
+        public async Task<User?> GetByIdAsync(Guid id, CancellationToken cancellationToken)
         {
-            this.users.Remove(user);
+            return await this.users.FindAsync(new object[] { id });
         }
 
-        public async Task<User> GetByIdAsync(Guid id, CancellationToken cancellationToken)
+        public async Task<User> GetByIdAsyncSafe(Guid id, CancellationToken cancellationToken)
         {
-            return await this.users.FindAsync(new object[] {id}, cancellationToken) ?? throw new ServiceValidationException("Unable to find that user.");
+            return await this.users.FindAsync() ?? throw new ServiceValidationException("Unable to find that user.");
         }
 
-        public void Update(User user)
+        public async Task<User?> GetByEmailAsync(string email, CancellationToken cancellationToken)
         {
-            this.users.Update(user);
+            return await this.users.FirstOrDefaultAsync(user => user.Email == email, cancellationToken);
         }
     }
 }

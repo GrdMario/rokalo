@@ -7,6 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\Rokalo.Infrastructure.Email\Rokalo.Infrastructure.Email.csproj" />
     <ProjectReference Include="..\Application\Rokalo.Application\Rokalo.Application.csproj" />
     <ProjectReference Include="..\Infrastructure\Rokalo.Infrastructure.Db.Users\Rokalo.Infrastructure.Db.Users.csproj" />
     <ProjectReference Include="..\Presentation\Rokalo.Presentation.Api\Rokalo.Presentation.Api.csproj" />

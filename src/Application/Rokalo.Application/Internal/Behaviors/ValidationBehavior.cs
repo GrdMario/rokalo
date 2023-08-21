@@ -8,32 +8,39 @@
     using System.Threading;
     using System.Threading.Tasks;
 
-    public class ValidationBehavior<TRequest, TResponse>
+    public sealed class ValidationBehavior<TRequest, TResponse>
         : IPipelineBehavior<TRequest, TResponse>
-        where TRequest : IRequest<TResponse>
+        where TRequest : notnull
     {
-        private readonly IEnumerable<IValidator<TRequest>> _validators;
+        private readonly IEnumerable<IValidator<TRequest>> validators;
 
         public ValidationBehavior(IEnumerable<IValidator<TRequest>> validators)
         {
-            _validators = validators;
+            this.validators = validators;
         }
 
         public async Task<TResponse> Handle(TRequest request, RequestHandlerDelegate<TResponse> next, CancellationToken cancellationToken)
         {
-            var failures = _validators
-                .Select(validator => validator.Validate(request))
-                .SelectMany(result => result.Errors)
-                .Where(failure => failure is not null)
-                .GroupBy(failure => failure.PropertyName)
-                .ToDictionary(
-                group => group.Key,
-                group => group.Select(failure => failure.ErrorMessage).ToArray());
 
-            if (failures.Any())
+            if (this.validators.Any())
             {
-                throw new ServiceValidationException(failures);
+                var context = new ValidationContext<TRequest>(request);
+                var validationResults = await Task.WhenAll(this.validators.Select(v => v.ValidateAsync(context, cancellationToken)));
+                var failures = validationResults
+                    .SelectMany(result => result.Errors)
+                    .Where(failure => failure is not null)
+                    .GroupBy(failure => failure.PropertyName)
+                    .ToDictionary(
+                    group => group.Key,
+                    group => group.Select(failure => failure.ErrorMessage).ToArray());
+
+                if (failures.Any())
+                {
+                    throw new ServiceValidationException(failures);
+                }
             }
+            
+
             return await next();
         }
     }
