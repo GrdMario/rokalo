@@ -41,6 +41,7 @@
             services.Configure<SmtpConfiguration>(Configuration.GetSection(SmtpConfiguration.Key));
             services.AddApplicationLayer();
             services.AddPresentationConfiguration(Environment);
+            services.AddHttpContextAccessor();
         }
 
         public void Configure(IApplicationBuilder app)

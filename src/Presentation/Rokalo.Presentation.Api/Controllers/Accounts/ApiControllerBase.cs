@@ -6,7 +6,7 @@
 
     [ApiController]
     [Produces(MediaTypeNames.Application.Json)]
-    [Route("api/[controller]")]
+    [Route("api/v1/[controller]")]
     public abstract class ApiControllerBase : ControllerBase
     {
         protected ApiControllerBase(
