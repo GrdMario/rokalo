@@ -31,5 +31,10 @@
         {
             this.Password = password; 
         }
+
+        public void ConfirmEmail()
+        {
+            this.IsEmailVerified = true;
+        }
     }
 }

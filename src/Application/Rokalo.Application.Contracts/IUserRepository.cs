@@ -7,12 +7,14 @@
 
     public interface IUserRepository
     {
-        Task<User> GetByIdAsyncSafe(Guid id, CancellationToken cancellationToken);
+        Task<User> GetByIdSafeAsync(Guid id, CancellationToken cancellationToken);
 
         Task<User?> GetByIdAsync(Guid id, CancellationToken cancellationToken);
 
         void Add(User user);
 
         Task<User?> GetByEmailAsync(string email, CancellationToken cancellationToken);
+
+        void Update(User user);
     }
 }

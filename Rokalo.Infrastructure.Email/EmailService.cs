@@ -2,6 +2,7 @@
 {
     using MailKit.Net.Smtp;
     using MailKit.Security;
+    using Microsoft.AspNetCore.Http;
     using Microsoft.Extensions.Options;
     using MimeKit;
     using Rokalo.Application.Contracts;
@@ -12,24 +13,18 @@
     internal sealed class EmailService : IEmailService
     {
         private readonly SmtpConfiguration smtpConfig;
+        private readonly IHttpContextAccessor httpContextAccessor;
 
-        public EmailService(IOptions<SmtpConfiguration> smtpConfig)
+        public EmailService(IOptions<SmtpConfiguration> smtpConfig, IHttpContextAccessor httpContextAccessor)
         {
             this.smtpConfig = smtpConfig.Value;
+            this.httpContextAccessor = httpContextAccessor;
         }
-
-        //private readonly IConfiguration configuration;
-
-        //public EmailService(IConfiguration configuration)
-        //{
-        //    this.configuration = configuration;
-        //}
 
         public async Task SendConfirmEmailAsync(string email, Guid userId, string code)
         {
             var msg = new MimeMessage();
 
-            //msg.From.Add(MailboxAddress.Parse(configuration.GetSection("MailSettings:UserName").Value));
             msg.From.Add(MailboxAddress.Parse(this.smtpConfig.UserName));
 
             msg.To.Add(MailboxAddress.Parse(email));
@@ -47,8 +42,13 @@
 
             bodyBuilder.HtmlBody = bodyBuilder.HtmlBody.Replace("{{user}}", email);
 
-            // TODO read application url from settings, check url when ConfirmEmail controller is done
-            bodyBuilder.HtmlBody = bodyBuilder.HtmlBody.Replace("{{link}}", $"https://localhost:7027/v1/accounts/email-confirmation/{userId}/{code}");
+            var request = httpContextAccessor.HttpContext.Request;
+
+            var baseUrl = $"{request.Scheme}://{request.Host}";
+
+            var confirmationLink = $"{baseUrl}/v1/accounts/email-confirmation?userId={userId}&confirmationCode={code}";
+
+            bodyBuilder.HtmlBody = bodyBuilder.HtmlBody.Replace("{{link}}", confirmationLink);
 
             msg.Body = bodyBuilder.ToMessageBody();
 
@@ -57,9 +57,6 @@
             await smtp.ConnectAsync(this.smtpConfig.Host, this.smtpConfig.Port, SecureSocketOptions.StartTls);
 
             await smtp.AuthenticateAsync(this.smtpConfig.UserName, this.smtpConfig.Password);
-            //await smtp.ConnectAsync(configuration.GetSection("MailSettings:Host").Value, int.Parse(configuration.GetSection("MailSettings:Port").Value), SecureSocketOptions.StartTls);
-
-            //await smtp.AuthenticateAsync(configuration.GetSection("MailSettings:UserName").Value, configuration.GetSection("MailSettings:¸Password").Value);
 
             await smtp.SendAsync(msg);
 
