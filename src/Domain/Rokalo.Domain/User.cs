@@ -36,5 +36,10 @@
         {
             this.IsEmailVerified = true;
         }
+
+        public void UpdateEmailVerificationCode(string verificationCode)
+        {
+            this.EmailVerificationCode = verificationCode;
+        }
     }
 }
